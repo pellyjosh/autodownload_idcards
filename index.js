@@ -8,7 +8,11 @@ require("dotenv").config();
 const app = express();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, process.env.PUPPETEER_STORAGE_PATH)
+    const folder = process.env.PUPPETEER_STORAGE_PATH;
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder, { recursive: true });
+    }
+    cb(null, folder)
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
