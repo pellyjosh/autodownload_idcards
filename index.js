@@ -8,7 +8,8 @@ require("dotenv").config();
 const app = express();
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads')
+    cb(null, 
+      process.env.NODE_ENV === "production" ? process.env.PUPPETEER_STORAGE_PATH : './uploads')
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
